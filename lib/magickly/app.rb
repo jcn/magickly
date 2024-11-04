@@ -70,13 +70,13 @@ module Magickly
       splat.split('/').each_slice(2) do |k, v|
         if RESERVED_PARAMS.include? k
           if k == 'src'
-            src = URI.unescape(v)
+            src = URI::DEFAULT_PARSER.unescape(v)
             # slashes come in double-escaped by Apache so we
             # need to unescape again
-            src = URI.unescape(src) if src =~ /%2F/
+            src = URI::DEFAULT_PARSER.unescape(src) if src =~ /%2F/
           end
         else
-          opts << [k, URI.unescape(v)]
+          opts << [k, URI::DEFAULT_PARSER.unescape(v)]
         end
       end
 
@@ -103,7 +103,7 @@ module Magickly
       options = ActiveSupport::OrderedHash.new
       request.query_string.split('&').each do |e|
         k,v = e.split('=')
-        options[k] = URI.unescape(v) unless RESERVED_PARAMS.include?(k)
+        options[k] = URI::DEFAULT_PARSER.unescape(v) unless RESERVED_PARAMS.include?(k)
       end
       options
     end

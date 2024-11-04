@@ -11,7 +11,7 @@ describe Magickly::App do
   def setup_image(host='http://www.foo.com')
     @image_filename = 'imagemagick.png'
     @image_url = "#{host}/#{@image_filename}"
-    @escaped_image_url = URI.escape @image_url, URI::REGEXP::PATTERN::RESERVED
+    @escaped_image_url = URI::DEFAULT_PARSER.escape @image_url, URI::REGEXP::PATTERN::RESERVED
     @image_path = File.join(File.dirname(__FILE__), '..', 'support', @image_filename)
     stub_request(:get, @image_url).to_return(:body => File.new(@image_path))
   end

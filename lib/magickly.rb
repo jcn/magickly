@@ -28,7 +28,7 @@ module Magickly
 
     def process_src(src, options={})
       raise ArgumentError.new("src needed") if src.blank?
-      escaped_src = URI.escape(src)
+      escaped_src = URI::DEFAULT_PARSER.escape(src)
       image = Magickly.dragonfly.fetch(escaped_src)
 
       process_image(image, options)
